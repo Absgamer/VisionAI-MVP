@@ -1,58 +1,70 @@
-
 import React, { useState } from 'react';
-import { Eye, Palette, Book } from 'lucide-react';
+import { Eye, Palette, Book, Bell } from 'lucide-react';
 import Header from '@/components/Header';
 import TestCard from '@/components/TestCard';
 import RefractiveTest from '@/components/RefractiveTest';
 import ColorBlindTest from '@/components/ColorBlindTest';
 import Education from '@/components/Education';
 import { LanguageProvider, useLanguage } from '@/components/LanguageProvider';
+import { FlickeringGrid } from '@/components/ui/flickering-grid';
 
-type CurrentView = 'home' | 'refractive' | 'color' | 'education';
+type CurrentView = 'home' | 'refractive' | 'color' | 'education' | 'reminder';
 
 const HomeContent = () => {
   const { t } = useLanguage();
   const [currentView, setCurrentView] = useState<CurrentView>('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // Render header with logo click handler
+  const header = (
+    <HeaderWithLanguage onLogoClick={() => setCurrentView('home')} />
+  );
+
   if (currentView === 'refractive') {
-    return <RefractiveTest onBack={() => setCurrentView('home')} />;
+    return <><HeaderWithLanguage onLogoClick={() => setCurrentView('home')} /><RefractiveTest onBack={() => setCurrentView('home')} /></>;
   }
-  
   if (currentView === 'color') {
-    return <ColorBlindTest onBack={() => setCurrentView('home')} />;
+    return <><HeaderWithLanguage onLogoClick={() => setCurrentView('home')} /><ColorBlindTest onBack={() => setCurrentView('home')} /></>;
   }
-  
   if (currentView === 'education') {
-    return <Education onBack={() => setCurrentView('home')} />;
+    return <><HeaderWithLanguage onLogoClick={() => setCurrentView('home')} /><Education onBack={() => setCurrentView('home')} /></>;
+  }
+  if (currentView === 'reminder') {
+    window.location.href = '/reminder';
+    return null;
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      {header}
       {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="relative overflow-hidden bg-[#0a1833]">
+        {/* FlickeringGrid background effect */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <FlickeringGrid color="#3b82f6" maxOpacity={0.32} squareSize={10} gridGap={8} />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-indigo-900/40 z-10"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 z-20">
           <div className="text-center">
             <div className="flex justify-center mb-8">
               <div className="relative">
-                <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full p-6 shadow-lg">
+                <div className="w-24 h-24 bg-gradient-to-r from-blue-700 to-indigo-800 rounded-full p-6 shadow-lg">
                   <Eye className="h-12 w-12 text-white" />
                 </div>
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full blur-sm opacity-30 animate-pulse"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-700 to-indigo-800 rounded-full blur-sm opacity-40 animate-pulse"></div>
               </div>
             </div>
-            
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
               {t('welcome')}
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
               {t('subtitle')}
             </p>
-            
-            <div className="inline-flex items-center space-x-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span>Works offline • Free to use • Multilingual</span>
+
+            <div className="inline-flex items-center space-x-2 bg-blue-900/60 text-blue-200 px-4 py-2 rounded-full text-sm font-medium">
+              <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+              <span>{t('heroBadge')}</span>
             </div>
           </div>
         </div>
@@ -61,13 +73,13 @@ const HomeContent = () => {
       {/* Test Cards Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Choose Your Eye Test</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('chooseTest')}</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Select from our AI-powered screening tests designed for accuracy and accessibility
+            {t('chooseTestDesc')}
           </p>
         </div>
-        
-        <div className="grid md:grid-cols-3 gap-8">
+
+        <div className="grid md:grid-cols-4 gap-8">
           <TestCard
             title={t('refractiveTest')}
             description={t('testDescription')}
@@ -76,7 +88,7 @@ const HomeContent = () => {
             buttonText={t('startTest')}
             gradient="from-blue-500 to-blue-600"
           />
-          
+
           <TestCard
             title={t('colorBlindTest')}
             description={t('colorDescription')}
@@ -85,13 +97,22 @@ const HomeContent = () => {
             buttonText={t('startTest')}
             gradient="from-purple-500 to-pink-500"
           />
-          
+
+          <TestCard
+            title={t('medicationReminder')}
+            description={t('medicationVoiceGuide')}
+            icon={Bell}
+            onClick={() => setCurrentView('reminder')}
+            buttonText={t('medicationSet')}
+            gradient="from-cyan-500 to-blue-400"
+          />
+
           <TestCard
             title={t('education')}
             description={t('educationDescription')}
             icon={Book}
             onClick={() => setCurrentView('education')}
-            buttonText="Learn More"
+            buttonText={t('learnMore')}
             gradient="from-green-500 to-emerald-500"
           />
         </div>
@@ -105,26 +126,24 @@ const HomeContent = () => {
               <div className="w-12 h-12 bg-blue-100 rounded-full p-3 mx-auto mb-4">
                 <Eye className="h-6 w-6 text-blue-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">AI-Powered Accuracy</h3>
-              <p className="text-gray-600">Advanced algorithms provide reliable screening results</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('feature1Title')}</h3>
+              <p className="text-gray-600">{t('feature1Desc')}</p>
             </div>
-            
-            <div className="p-6">
-              <div className="w-12 h-12 bg-green-100 rounded-full p-3 mx-auto mb-4">
-                <div className="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                </div>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Works Offline</h3>
-              <p className="text-gray-600">Take tests without internet connection</p>
-            </div>
-            
+
             <div className="p-6">
               <div className="w-12 h-12 bg-purple-100 rounded-full p-3 mx-auto mb-4">
                 <Book className="h-6 w-6 text-purple-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Multilingual Support</h3>
-              <p className="text-gray-600">Available in English, Hindi, and Tamil</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('feature2Title')}</h3>
+              <p className="text-gray-600">{t('feature2Desc')}</p>
+            </div>
+
+            <div className="p-6">
+              <div className="w-12 h-12 bg-blue-100 rounded-full p-3 mx-auto mb-4">
+                <Book className="h-6 w-6 text-blue-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('feature3Title')}</h3>
+              <p className="text-gray-600">{t('feature3Desc')}</p>
             </div>
           </div>
         </div>
@@ -134,23 +153,23 @@ const HomeContent = () => {
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 py-16">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white mb-4">
-            Early Detection, Better Vision
+            {t('ctaTitle')}
           </h2>
           <p className="text-xl text-blue-100 mb-8">
-            Join thousands who have already screened their vision with VisionAI
+            {t('ctaDesc')}
           </p>
           <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
-            <button 
+            <button
               onClick={() => setCurrentView('refractive')}
               className="w-full sm:w-auto bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors duration-200"
             >
-              Start Vision Test
+              {t('ctaStart')}
             </button>
-            <button 
+            <button
               onClick={() => setCurrentView('education')}
               className="w-full sm:w-auto border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200"
             >
-              Learn More
+              {t('ctaLearn')}
             </button>
           </div>
         </div>
@@ -163,21 +182,20 @@ const Index = () => {
   return (
     <LanguageProvider>
       <div className="min-h-screen">
-        <HeaderWithLanguage />
         <HomeContent />
       </div>
     </LanguageProvider>
   );
 };
 
-const HeaderWithLanguage = () => {
+const HeaderWithLanguage = ({ onLogoClick }: { onLogoClick?: () => void }) => {
   const { language, setLanguage } = useLanguage();
-  
   return (
-    <Header 
+    <Header
       currentLanguage={language}
       onLanguageChange={setLanguage}
-      onMenuClick={() => {}}
+      onMenuClick={() => { }}
+      onLogoClick={onLogoClick}
     />
   );
 };
