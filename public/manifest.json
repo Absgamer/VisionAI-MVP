@@ -1,8 +1,7 @@
-
 {
   "name": "VisionAI - Eye Health Screening",
   "short_name": "VisionAI",
-  "description": "AI-powered eye health screening for everyone",
+  "description": "An accessible web app delivering eye health screening and education",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -16,12 +15,16 @@
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-512.png", 
+      "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "categories": ["health", "medical", "accessibility"],
+  "categories": [
+    "health",
+    "medical",
+    "accessibility"
+  ],
   "lang": "en"
 }
