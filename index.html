@@ -17,11 +17,40 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@Abhimanyu26x" />
   <meta name="twitter:image" content="/assets/images/visionai-og-image.png" />
+
+
 </head>
 
 <body>
   <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
+  <script type="module" src="./src/main.tsx"></script>
+
+  <!-- Inline script to request notification permission -->
+  <script>
+    // Function to request notification permission
+    function requestNotificationPermission() {
+      if (Notification.permission === "default") {
+        Notification.requestPermission()
+          .then((permission) => {
+            if (permission === "granted") {
+              console.log("Notification permission granted.");
+            } else {
+              console.log("Notification permission denied.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error requesting notification permission:", error);
+          });
+      } else if (Notification.permission === "granted") {
+        console.log("Notification permission already granted.");
+      } else {
+        console.log("Notification permission already denied.");
+      }
+    }
+
+    // Call the function when the website loads
+    window.addEventListener("load", requestNotificationPermission);
+  </script>
 </body>
 
 </html>

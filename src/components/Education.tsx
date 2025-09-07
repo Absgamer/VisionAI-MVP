@@ -49,12 +49,12 @@ const Education = ({ onBack }: EducationProps) => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-4 transition-colors duration-200">
       <div className="max-w-4xl mx-auto">
         <Button
           variant="ghost"
           onClick={onBack}
-          className="mb-6 text-green-700 hover:text-green-800"
+          className="mb-6 text-green-700 hover:text-green-800 dark:text-green-300 dark:hover:text-green-200 transition-colors duration-200"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           {t('back')}
@@ -64,19 +64,19 @@ const Education = ({ onBack }: EducationProps) => {
           <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-green-500 to-blue-500 p-4 mb-4">
             <Book className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">{t('eyeHealthTitle')}</h1>
-          <p className="text-gray-600 mt-2">{t('educationSubtitle')}</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white transition-colors duration-200">{t('eyeHealthTitle')}</h1>
+          <p className="text-gray-600 dark:text-gray-300 mt-2 transition-colors duration-200">{t('educationSubtitle')}</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-1">
           {educationContent.map((section, index) => (
-            <Card key={index} className="shadow-lg border-0 hover:shadow-xl transition-shadow duration-300">
+            <Card key={index} className="shadow-lg border-0 hover:shadow-xl transition-shadow duration-300 dark:bg-gray-800 transition-colors duration-200">
               <CardHeader className="pb-4">
                 <div className="flex items-center space-x-4">
                   <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${section.gradient} p-3`}>
                     <section.icon className="h-6 w-6 text-white" />
                   </div>
-                  <CardTitle className="text-xl font-semibold text-gray-900">
+                  <CardTitle className="text-xl font-semibold text-gray-900 dark:text-white transition-colors duration-200">
                     {section.title}
                   </CardTitle>
                 </div>
@@ -86,7 +86,7 @@ const Education = ({ onBack }: EducationProps) => {
                   {section.content.map((item, itemIndex) => (
                     <div key={itemIndex} className="flex items-start space-x-3">
                       <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <p className="text-gray-700 leading-relaxed">{item}</p>
+                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed transition-colors duration-200">{item}</p>
                     </div>
                   ))}
                 </div>

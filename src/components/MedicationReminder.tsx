@@ -32,9 +32,9 @@ export default function MedicationReminder() {
     const nextDose = getNextDoseTime(time, frequency);
 
     return (
-        <section className="bg-blue-100 p-4 rounded-lg max-w-md mx-auto mt-8 shadow-lg">
-            <h2 className="text-2xl font-bold mb-2 text-blue-900">{t('medicationReminder')}</h2>
-            <p className="mb-4 text-blue-800 text-lg" aria-live="polite">{t('medicationVoiceGuide')}</p>
+        <section className="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg max-w-md mx-auto mt-8 shadow-lg transition-colors duration-200">
+            <h2 className="text-2xl font-bold mb-2 text-blue-900 dark:text-blue-100 transition-colors duration-200">{t('medicationReminder')}</h2>
+            <p className="mb-4 text-blue-800 dark:text-blue-200 text-lg transition-colors duration-200" aria-live="polite">{t('medicationVoiceGuide')}</p>
             <form
                 className="flex flex-col gap-4"
                 onSubmit={e => {
@@ -43,21 +43,21 @@ export default function MedicationReminder() {
                 }}
                 aria-label={t('medicationReminder')}
             >
-                <label className="font-semibold text-blue-900">
+                <label className="font-semibold text-blue-900 dark:text-blue-100 transition-colors duration-200">
                     {t('medicationTime')}
                     <input
                         type="time"
-                        className="block w-full mt-1 p-2 rounded border border-blue-300 text-lg"
+                        className="block w-full mt-1 p-2 rounded border border-blue-300 dark:border-blue-600 text-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-200"
                         value={time}
                         onChange={e => setTime(e.target.value)}
                         required
                         aria-required="true"
                     />
                 </label>
-                <label className="font-semibold text-blue-900">
+                <label className="font-semibold text-blue-900 dark:text-blue-100 transition-colors duration-200">
                     {t('medicationFrequency')}
                     <select
-                        className="block w-full mt-1 p-2 rounded border border-blue-300 text-lg"
+                        className="block w-full mt-1 p-2 rounded border border-blue-300 dark:border-blue-600 text-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-200"
                         value={frequency}
                         onChange={e => setFrequency(e.target.value)}
                         required
@@ -68,11 +68,11 @@ export default function MedicationReminder() {
                         ))}
                     </select>
                 </label>
-                <label className="font-semibold text-blue-900">
+                <label className="font-semibold text-blue-900 dark:text-blue-100 transition-colors duration-200">
                     {t('medicationDose')}
                     <input
                         type="text"
-                        className="block w-full mt-1 p-2 rounded border border-blue-300 text-lg"
+                        className="block w-full mt-1 p-2 rounded border border-blue-300 dark:border-blue-600 text-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-200"
                         value={dose}
                         onChange={e => setDose(e.target.value)}
                         placeholder="e.g. 2 drops"
@@ -81,13 +81,13 @@ export default function MedicationReminder() {
                 </label>
                 <button
                     type="submit"
-                    className="bg-blue-600 text-white font-bold py-2 rounded-lg hover:bg-blue-700 text-lg mt-2"
+                    className="bg-blue-600 text-white font-bold py-2 rounded-lg hover:bg-blue-700 text-lg mt-2 transition-colors duration-200"
                 >
                     {t('medicationSet')}
                 </button>
             </form>
             {submitted && time && (
-                <div className="mt-4 text-blue-900 text-lg font-semibold" aria-live="polite">
+                <div className="mt-4 text-blue-900 dark:text-blue-100 text-lg font-semibold transition-colors duration-200" aria-live="polite">
                     {t('medicationNextDose').replace('{time}', nextDose)}
                 </div>
             )}
